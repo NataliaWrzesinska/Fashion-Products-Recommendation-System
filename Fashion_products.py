@@ -6,10 +6,6 @@
 # ## Project Objective
 # The primary goal of this project is to develop a sophisticated recommendation system aimed at boosting sales by offering personalized product suggestions to customers. By leveraging historical data on product interactions, ratings, and user preferences, the system will identify and recommend products that are most likely to appeal to individual customers, thereby enhancing the sales of various fashion products.
 # 
-# ## Research Questions
-# 1. Which product categories show the highest potential for sales increase through personalized recommendations?
-# 2. How does the relationship between product price and user ratings impact sales potential?
-# 3. What are the key features of products that significantly influence their likelihood of being purchased when recommended?
 # 
 # ## Hypothesis
 # We hypothesize that a well-designed recommendation system can significantly increase the sales of fashion products by aligning product offerings with the unique preferences and behaviors of individual customers.
