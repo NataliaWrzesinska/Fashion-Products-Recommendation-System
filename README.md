@@ -3,12 +3,6 @@
 ## Introduction
 This project focuses on the development of a sophisticated recommendation system aimed at enhancing sales by offering personalized product suggestions to customers. Leveraging historical data on product interactions, ratings, and user preferences, this system identifies and recommends products likely to attract individual customers, thus potentially boosting the sales of various fashion items.
 
-## Research Questions
-The main questions guiding this analysis include:
-1. Which product categories have the highest potential for sales increase through personalized recommendations?
-2. How does the relationship between product price and user ratings impact sales potential?
-3. What are the key features of products that significantly influence their likelihood of being recommended and purchased?
-
 ## Hypothesis
 The hypothesis is that a well-designed recommendation system can significantly increase the sales of fashion products by aligning product offerings with the unique preferences and behaviors of individual customers.
 
