@@ -6,6 +6,10 @@
 # ## Project Objective
 # The primary goal of this project is to develop a sophisticated recommendation system aimed at boosting sales by offering personalized product suggestions to customers. By leveraging historical data on product interactions, ratings, and user preferences, the system will identify and recommend products that are most likely to appeal to individual customers, thereby enhancing the sales of various fashion products.
 # 
+# ## Research Questions
+# 1. Which product categories show the highest potential for sales increase through personalized recommendations?
+# 2. How does the relationship between product price and user ratings impact sales potential?
+# 3. What are the key features of products that significantly influence their likelihood of being purchased when recommended?
 # 
 # ## Hypothesis
 # We hypothesize that a well-designed recommendation system can significantly increase the sales of fashion products by aligning product offerings with the unique preferences and behaviors of individual customers.
@@ -415,3 +419,127 @@ plt.show()
 # 
 # # Conclusion
 # In conclusion, the visual analysis has provided valuable insights into the behavior of the recommendation system. While there is evidence of the system's ability to identify products that align with user preferences, there is room for improvement in diversity and personalization. Future work should focus on enhancing the recommendation engine's robustness, ensuring that it serves the users' varied interests and uncovers the hidden gems within the product catalog. By continuously iterating on the model and incorporating user feedback, we can aspire to create a dynamic and responsive recommendation system that grows with its user base.
+
+# ## Category Analysis in Product Recommendations
+# This script, titled explores the distribution of product categories within a set of recommended items. It merges product recommendations with detailed information to assess category prevalence, displaying the results through a bar chart. This analysis aids in understanding which categories are most frequently recommended, offering insights into consumer preferences and potential sales opportunities.
+
+# In[43]:
+
+
+# Analyzing Category Recommendations
+def analyze_category_recommendations(recommendations, df):
+    # Merge recommendations with product details to get categories
+    recommended_products = df[df['Product ID'].isin(recommendations)]
+    category_counts = recommended_products['Category'].value_counts()
+    
+    # Plotting the frequency of each category in recommendations
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=category_counts.index, y=category_counts.values)
+    plt.title('Frequency of Product Categories in Recommendations')
+    plt.xlabel('Category')
+    plt.ylabel('Frequency')
+    plt.xticks(rotation=45)
+    plt.show()
+
+    return category_counts
+
+# Assuming 'recommended_product_ids' contains the IDs of recommended products
+category_analysis = analyze_category_recommendations(recommended_product_ids, df)
+print(category_analysis)
+
+
+# ## Insights into Product Category Performance
+# This script segment conducts an analysis of product categories by aggregating average ratings and the count of recommendations per category. It aims to identify categories with the highest potential for sales increase based on their popularity and customer satisfaction. The results are sorted to prioritize categories with higher average ratings and more recommendations, offering a strategic view for targeted marketing and stock optimization.
+
+# In[42]:
+
+
+# Group by 'Category' and calculate average rating and recommendation count
+category_analysis = df.groupby('Category').agg({
+    'Rating': 'mean',
+    'Product ID': 'count'  # Assuming 'Product ID' count as a proxy for recommendations
+}).rename(columns={'Rating': 'Average Rating', 'Product ID': 'Recommendation Count'})
+
+# Sort categories by Average Rating and Recommendation Count for potential sales increase insight
+category_analysis.sort_values(by=['Average Rating', 'Recommendation Count'], ascending=False, inplace=True)
+
+# Display the top categories
+print(category_analysis.head())
+
+
+# ## Color Impact Analysis on Ratings
+# This script segment explores the influence of color on product ratings within a fashion products dataset. By grouping products by color and calculating the average rating for each group, it visually presents this relationship through a bar chart. The analysis aims to uncover trends indicating whether certain colors are more favorably rated than others, potentially guiding product development and marketing strategies.
+
+# In[44]:
+
+
+color_analysis = df.groupby('Color')['Rating'].mean().sort_values(ascending=False)
+plt.figure(figsize=(10, 6))
+sns.barplot(x=color_analysis.index, y=color_analysis.values)
+plt.title('Impact of Color on Average Product Rating')
+plt.xlabel('Color')
+plt.ylabel('Average Rating')
+plt.show()
+
+
+# ## Size Impact Analysis
+# To analyze the impact of product size on average ratings, this script groups data by 'Size' and calculates the mean rating for each size category. A bar plot visualizes these average ratings, highlighting how different sizes are perceived in terms of quality or appeal. This analysis is pivotal for understanding consumer preferences and optimizing product offerings for enhanced customer satisfaction.
+
+# In[45]:
+
+
+size_analysis = df.groupby('Size')['Rating'].mean().sort_values(ascending=False)
+plt.figure(figsize=(10, 6))
+sns.barplot(x=size_analysis.index, y=size_analysis.values)
+plt.title('Impact of Size on Average Product Rating')
+plt.xlabel('Size')
+plt.ylabel('Average Rating')
+plt.show()
+
+
+# ## Brand Popularity and Rating Analysis
+# This script segment evaluates the relationship between brand popularity and average product ratings. By grouping data by brand and calculating the mean rating and count of ratings, we can visualize how brand popularity correlates with consumer satisfaction. The scatter plot highlights patterns between the average rating and the number of ratings, offering insights into which brands are both popular and highly rated.
+
+# In[46]:
+
+
+brand_popularity_analysis = df.groupby('Brand')['Rating'].agg(['mean', 'count'])
+brand_popularity_analysis.sort_values(by=['count', 'mean'], ascending=[False, False], inplace=True)
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=brand_popularity_analysis, x='mean', y='count')
+plt.title('Brand Popularity vs. Average Rating')
+plt.xlabel('Average Rating')
+plt.ylabel('Number of Ratings (Popularity)')
+plt.show()
+
+
+# ## Relationship Between Product Price and User Ratings
+# The code snippet creates a scatter plot visualizing the relationship between product price and user ratings. The X-axis represents the product price, while the Y-axis displays user ratings. This visualization can help identify if there's a trend or pattern that suggests a correlation between the price of products and their ratings by users, which could be useful for assessing the impact on sales potential.
+
+# In[49]:
+
+
+# Creating the scatter plot
+plt.figure(figsize=(12, 6))
+sns.scatterplot(data=df, x='Price', y='Rating')
+plt.title('Relationship Between Product Price and User Ratings')
+plt.xlabel('Price')
+plt.ylabel('User Rating')
+plt.show()
+
+
+# # Which product categories show the highest potential for sales increase through personalized recommendations?
+#    The category analysis chart suggests that 'Kids' Fashion' has the highest potential for a sales increase as it has the highest average rating amongst the top categories, followed closely by 'Women's Fashion' and 'Men's Fashion'. Personalized recommendations in these categories could be especially effective.
+# 
+# # How does the relationship between product price and user ratings impact sales potential?
+#   Based on the scatter plot, it appears there is a wide distribution of user ratings across different product prices. This suggests that price alone may not be a decisive factor in how users rate products, indicating that other factors might also play a significant role in user satisfaction and perceived value. Therefore, while price is an essential aspect, it should be considered alongside other product attributes when evaluating sales potential and customer satisfaction.
+# # What are the key features of products that significantly influence their likelihood of being purchased when recommended?
+#    The chart showing the impact of color and size on ratings indicate that certain colors and sizes receive higher ratings. Green and size 'S' seem to have the highest average ratings, implying that these attributes could influence a product’s likelihood to be purchased when recommended. Additionally, brand popularity is a significant feature, as shown by the scatterplot correlating the number of ratings (popularity) with the average rating.
+# 
+# 
+
+# In[ ]:
+
+
+
+
